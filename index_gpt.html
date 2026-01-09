@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <title>Course Management System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2563eb',
+            secondary: '#64748b',
+            accent: '#10b981',
+            bg: '#f8fafc',
+            text: '#1e293b'
+          },
+          borderRadius: {
+            lg: '8px'
+          },
+          transitionDuration: {
+            DEFAULT: '300ms'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- React + Babel -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Framer Motion -->
+  <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js"></script>
+
+  <style>
+    body {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont;
+    }
+  </style>
+</head>
+
+<body class="h-full bg-bg text-text dark:bg-slate-900 dark:text-slate-100">
+<div id="root" class="h-full"></div>
+
+<script type="text/babel">
+
+/* ===========================
+   i18n (simple demo)
+=========================== */
+const translations = {
+  en: {
+    dashboard: "Dashboard",
+    courses: "Courses",
+    students: "Students",
+    analytics: "Analytics",
+    darkMode: "Dark Mode"
+  },
+  es: {
+    dashboard: "Tablero",
+    courses: "Cursos",
+    students: "Estudiantes",
+    analytics: "Analíticas",
+    darkMode: "Modo Oscuro"
+  }
+}
+
+/* ===========================
+   Toast System
+=========================== */
+const ToastContext = React.createContext(null)
+
+function ToastProvider({ children }) {
+  const [toasts, setToasts] = React.useState([])
+
+  const notify = (msg) => {
+    setToasts(t => [...t, msg])
+    setTimeout(() => setToasts(t => t.slice(1)), 3000)
+  }
+
+  return (
+    <ToastContext.Provider value={notify}>
+      {children}
+      <div className="fixed bottom-4 right-4 space-y-2">
+        {toasts.map((t, i) => (
+          <div key={i} className="bg-primary text-white px-4 py-2 rounded-lg shadow">
+            {t}
+          </div>
+        ))}
+      </div>
+    </ToastContext.Provider>
+  )
+}
+
+/* ===========================
+   UI Components
+=========================== */
+function MetricCard({ title, value }) {
+  return (
+    <div className="p-4 rounded-lg shadow bg-white dark:bg-slate-800">
+      <p className="text-secondary text-sm">{title}</p>
+      <p className="text-2xl font-semibold">{value}</p>
+    </div>
+  )
+}
+
+function Skeleton() {
+  return <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+}
+
+function CourseCard({ title, progress }) {
+  return (
+    <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow">
+      <h3 className="font-semibold">{title}</h3>
+      <div className="mt-2 h-2 bg-slate-200 rounded">
+        <div className="h-2 bg-accent rounded" style={{ width: progress + '%' }} />
+      </div>
+    </div>
+  )
+}
+
+/* ===========================
+   Chart Component
+=========================== */
+function AnalyticsChart() {
+  const ref = React.useRef(null)
+
+  React.useEffect(() => {
+    new Chart(ref.current, {
+      type: 'line',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+        datasets: [{
+          label: 'Enrollments',
+          data: [12, 19, 7, 15, 22],
+          borderColor: '#2563eb',
+          tension: 0.4
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    })
+  }, [])
+
+  return <canvas ref={ref}></canvas>
+}
+
+/* ===========================
+   Main App
+=========================== */
+function App() {
+  const [dark, setDark] = React.useState(false)
+  const [lang, setLang] = React.useState('en')
+  const notify = React.useContext(ToastContext)
+  const t = translations[lang]
+
+  React.useEffect(() => {
+    document.documentElement.classList.toggle('dark', dark)
+  }, [dark])
+
+  return (
+    <div className="min-h-full grid grid-cols-12 gap-6 p-6">
+      
+      {/* Sidebar */}
+      <aside className="col-span-12 md:col-span-2 space-y-4">
+        <h1 className="text-xl font-semibold">CMS</h1>
+        <nav className="space-y-2">
+          <button className="block w-full text-left">{t.dashboard}</button>
+          <button className="block w-full text-left">{t.courses}</button>
+          <button className="block w-full text-left">{t.students}</button>
+          <button className="block w-full text-left">{t.analytics}</button>
+        </nav>
+
+        <div className="pt-4 space-y-2">
+          <button
+            onClick={() => setDark(d => !d)}
+            className="text-sm underline"
+          >
+            {t.darkMode}
+          </button>
+
+          <select
+            className="w-full p-1 rounded"
+            onChange={e => setLang(e.target.value)}
+          >
+            <option value="en">EN</option>
+            <option value="es">ES</option>
+          </select>
+        </div>
+      </aside>
+
+      {/* Main */}
+      <main className="col-span-12 md:col-span-10 space-y-6">
+        
+        {/* Metrics */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <MetricCard title="Active Courses" value="12" />
+          <MetricCard title="Students" value="342" />
+          <MetricCard title="Completion Rate" value="87%" />
+        </section>
+
+        {/* Analytics */}
+        <section className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow">
+          <h2 className="font-semibold mb-2">Analytics</h2>
+          <AnalyticsChart />
+        </section>
+
+        {/* Courses */}
+        <section>
+          <h2 className="font-semibold mb-2">Courses</h2>
+          <div className="grid md:grid-cols-3 gap-4">
+            <CourseCard title="React Fundamentals" progress={80} />
+            <CourseCard title="Advanced TypeScript" progress={45} />
+            <CourseCard title="Node.js APIs" progress={60} />
+          </div>
+        </section>
+
+        {/* Action */}
+        <button
+          onClick={() => notify("Action completed successfully")}
+          className="bg-primary text-white px-4 py-2 rounded-lg hover:opacity-90 transition"
+        >
+          Trigger Toast
+        </button>
+
+      </main>
+    </div>
+  )
+}
+
+/* ===========================
+   Render
+=========================== */
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <ToastProvider>
+    <App />
+  </ToastProvider>
+)
+</script>
+</body>
+</html>
