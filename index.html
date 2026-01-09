@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.2.4/tailwind.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .bg-primary {
+            background-color: #2563eb;
+        }
+        .bg-secondary {
+            background-color: #64748b;
+        }
+        .bg-accent {
+            background-color: #10b981;
+        }
+        .text-primary {
+            color: #2563eb;
+        }
+        .text-secondary {
+            color: #64748b;
+        }
+        .text-accent {
+            color: #10b981;
+        }
+
+        /* Add more styles as needed */
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="bg-primary p-2 text-white fixed top-0 left-0 w-full">
+    <ul class="flex items-center justify-between">
+        <li><a href="#" class="text-accent">Home</a></li>
+        <li><a href="#" class="text-accent">Courses</a></li>
+        <li><a href="#" class="text-accent">Students</a></li>
+        <li><a href="#" class="text-accent">Analytics</a></li>
+    </ul>
+</nav>
+
+<!-- Hero Section -->
+<section class="bg-secondary py-24 flex items-center justify-center">
+    <div class="max-w-screen-lg text-center">
+        <h1 class="text-primary font-bold text-5xl mb-4">Welcome to the Course Management System</h1>
+        <p class="text-accent text-xl max-w-md mx-auto">Your one-stop solution for managing courses and students.</p>
+    </div>
+</section>
+
+<!-- Dashboard Section -->
+<section class="bg-white py-8 px-8 rounded-lg shadow-lg my-8">
+    <h2 class="text-primary font-bold mb-6">Dashboard</h2>
+    <div class="grid grid-cols-3 gap-4">
+        <!-- Metrics Card 1 -->
+        <div class="bg-accent text-white p-6 rounded-lg shadow-md">
+            <p class="text-xl font-semibold">Enrolled Students</p>
+            <span class="text-4xl mt-2">500+</span>
+            <p class="mt-4">Number of enrolled students in the system.</p>
+        </div>
+
+        <!-- Metrics Card 2 -->
+        <div class="bg-secondary text-white p-6 rounded-lg shadow-md">
+            <p class="text-xl font-semibold">Courses Offered</p>
+            <span class="text-4xl mt-2">300+</span>
+            <p class="mt-4">Total number of courses available.</p>
+        </div>
+
+        <!-- Metrics Card 3 -->
+        <div class="bg-primary text-white p-6 rounded-lg shadow-md">
+            <p class="text-xl font-semibold">Completion Rate</p>
+            <span class="text-4xl mt-2">85%</span>
+            <p class="mt-4">Percentage of students who have completed their courses.</p>
+        }
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-primary text-white p-6 text-center fixed bottom-0 left-0 w-full">
+    <p>&copy; 2023 Course Management System. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@emotion/react@11/dist/emotion-react.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/tailwindcss@3/dist/tailwind.min.css"></script>
+<script src="https://cdn.tailwindcss.org/"></script>
+</body>
+</html>
