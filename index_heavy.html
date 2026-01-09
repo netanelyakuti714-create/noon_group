@@ -1,96 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduManage | Modern Course Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --accent: #10b981;
+            --background: #f8fafc;
+            --text: #1e293b;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 300ms ease-in-out;
+            --radius: 8px;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-Create a modern, sophisticated course management system with the following specifications – THE OUTPUT MUST BE A SINGLE COMPREHENSIVE HTML FILE:
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
 
-DESIGN & UX REQUIREMENTS:
-- Implement a sleek, minimalist design with professional color palette using:
-  - Primary: #2563eb (professional blue)
-  - Secondary: #64748b (slate gray)
-  - Accent: #10b981 (emerald green)
-  - Background: #f8fafc (light slate)
-  - Text: #1e293b (dark slate)
-- Use a modern typography system with:
-  - Primary font: Inter or system font stack
-  - Headings: 600 weight with proper hierarchy
-  - Body text: 400 weight with optimal line height
-- Implement a responsive grid system with 12-column layout
-- Use subtle shadows and rounded corners (border-radius: 8px)
-- Smooth transitions (300ms ease-in-out) for all interactive elements
-- Professional spacing system (8px base unit)
+        .container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
 
-TECHNOLOGY STACK:
-FRONTEND:
-- React 18+ with TypeScript
-- Tailwind CSS for styling
-- React Query/TanStack Query for server state management
-- React Hook Form for form handling
-- Framer Motion for animations
-- Chart.js for analytics with custom professional styling
+        /* Sidebar Styles */
+        .sidebar {
+            background: linear-gradient(180deg, var(--primary) 0%, #1d4ed8 100%);
+            color: white;
+            padding: var(--spacing-lg);
+            position: fixed;
+            width: 250px;
+            height: 100vh;
+            overflow-y: auto;
+            transition: var(--transition);
+            z-index: 100;
+        }
 
-BACKEND:
-- Node.js with Express
-- PostgreSQL with Prisma ORM
-- JWT authentication with refresh tokens
-- Redis for caching and session management
-- API rate limiting and security middleware
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-FEATURES TO IMPLEMENT:
-1. Modern Dashboard with:
-   - Clean metrics cards with professional gradient backgrounds
-   - Interactive charts with custom tooltips
-   - Quick action buttons with hover effects
-   - Recent activity feed with avatars and timestamps
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--accent);
+        }
 
-2. Course Management:
-   - Course cards with cover images and progress indicators
-   - Drag-and-drop course organization
-   - Bulk actions with modern checkboxes
-   - Advanced filtering and search with debounced input
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
 
-3. Student Management:
-   - Professional data tables with pagination
-   - Student profile modals with avatar upload
-   - Enrollment status badges with color coding
-   - Export functionality with modern button styles
+        .nav-item {
+            margin-bottom: var(--spacing-sm);
+        }
 
-4. Content Management:
-   - Rich text editor with modern toolbar
-   - File upload with drag-and-drop interface
-   - Media gallery with grid layout
-   - Version history with clean diff views
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius);
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
 
-5. Analytics & Reporting:
-   - Professional dashboard widgets
-   - Custom chart components with company branding
-   - Export functionality with multiple format options
-   - Real-time data updates with loading states
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
 
-INTERACTION PATTERNS:
-- Implement modern loading skeletons instead of spinners
-- Use toast notifications for user feedback
-- Create custom form validation with clear error states
-- Implement infinite scroll for large datasets
-- Add keyboard navigation support
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
 
-ACCESSIBILITY & PERFORMANCE:
-- Ensure WCAG 2.1 AA compliance
-- Implement lazy loading for images and components
-- Optimize bundle size with code splitting
-- Add proper ARIA labels and roles
-- Ensure mobile-first responsive design
+        /* Main Content Styles */
+        .main-content {
+            grid-column: 2;
+            padding: var(--spacing-lg);
+        }
 
-ADDITIONAL REQUIREMENTS:
-- Dark mode toggle with professional color scheme
-- Multi-language support with i18n
-- Role-based access control with clean UI
-- Real-time notifications with badge counters
-- Advanced search with filter chips
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--border);
+        }
 
-Create clean, maintainable code with:
-- Proper TypeScript interfaces and types
-- Component composition with custom hooks
-- Error boundaries for graceful error handling
-- Comprehensive testing setup with Jest and React Testing Library
-- Professional folder structure and naming conventions
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: var(--spacing-sm) var(--spacing-md);
+            box-shadow: var(--shadow);
+            width: 300px;
+        }
 
-Focus on creating a polished, production-ready application that follows industry best practices for both code quality and user experience. Ensure all interactions feel smooth and professional.
+        .search-bar input {
+            border: none;
+            outline: none;
+            background: transparent;
+            width: 100%;
+            padding: var(--spacing-xs);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .notification-btn, .profile-btn {
+            background: var(--card-bg);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-btn img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .metric-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .metric-title {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .metric-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .icon-blue {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+
+        .icon-green {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent);
+        }
+
+        .icon-orange {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .icon-purple {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .metric-change {
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .change-positive {
+            color: var(--success);
+        }
+
+        .change-negative {
+            color: var(--danger);
+        }
+
+        /* Charts Section */
+        .charts-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .chart-container {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .chart-actions button {
+            background: none;
+            border: none;
+            color: var(--secondary);
+            cursor: pointer;
+            margin-left: var(--spacing-sm);
+        }
+
+        .chart-wrapper {
+            height: 300px;
+            position: relative;
+        }
+
+        /* Recent Activity */
+        .activity-feed {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow);
+        }
+
+        .activity-header {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .activity-item {
+            display: flex;
+            gap: var(--spacing-md);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .activity-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-user {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .activity-desc {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: var(--secondary);
+        }
+
+        /* Courses Section */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: var(--spacing-xl) 0 var(--spacing-md);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius);
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .course-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-image {
+            height: 160px;
+            background: linear-gradient(45deg, #2563eb, #64748b);
+            position: relative;
+        }
+
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--accent);
+            width: 75%;
+        }
+
+        .course-content {
+            padding: var(--spacing-md);
+        }
+
+        .course-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--secondary);
+            font-size: 0.85rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            padding-top: var(--spacing-sm);
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                width: 70px;
+                padding: var(--spacing-md);
+            }
+            
+            .logo h1, .nav-text {
+                display: none;
+            }
+            
+            .logo {
+                justify-content: center;
+                padding: var(--spacing-md) 0;
+            }
+            
+            .nav-link {
+                justify-content: center;
+                padding: var(--spacing-md);
+            }
+            
+            .main-content {
+                grid-column: 1;
+            }
+            
+            .search-bar {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-md);
+            }
+            
+            .search-bar {
+                width: 100%;
+            }
+            
+            .user-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        /* Dark Mode */
+        .dark-mode {
+            --background: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f1f5f9;
+            --border: #334155;
+            --secondary: #94a3b8;
+        }
+
+        .dark-mode .sidebar {
+            background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+        }
+
+        .dark-mode .search-bar,
+        .dark-mode .notification-btn,
+        .dark-mode .profile-btn {
+            background: #334155;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Utility Classes */
+        .mb-4 { margin-bottom: var(--spacing-lg); }
+        .mt-4 { margin-top: var(--spacing-lg); }
+        .d-flex { display: flex; }
+        .align-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-sm { gap: var(--spacing-sm); }
+        .gap-md { gap: var(--spacing-md); }
+        .w-full { width: 100%; }
+        .rounded { border-radius: var(--radius); }
+        .p-md { padding: var(--spacing-md); }
+        .shadow { box-shadow: var(--shadow); }
+        .bg-white { background: var(--card-bg); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>EduManage</h1>
+            </div>
+            <nav>
+                <div class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-book"></i>
+                        <span class="nav-text">Courses</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span class="nav-text">Students</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="nav-text">Analytics</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span class="nav-text">Settings</span>
+                    </a>
+                </div>
+                <div class="nav-item mt-4">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="nav-text">Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search courses, students...">
+                </div>
+                <div class="user-actions">
+                    <button class="notification-btn">
+                        <i class="far fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <button class="profile-btn">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=2563eb&color=fff" alt="Profile">
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Metrics -->
+            <div class="dashboard-grid">
+                <div class="metric-card fade-in">
+                    <div class="metric-header">
+                        <div class="metric-title">Total Students</div>
+                        <div class="metric-icon icon-blue">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="metric-value">1,248</div>
+                    <div class="metric-change change-positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>12% from last month</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card fade-in">
+                    <div class="metric-header">
+                        <div class="metric-title">Active Courses</div>
+                        <div class="metric-icon icon-green">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                    </div>
+                    <div class="metric-value">42</div>
+                    <div class="metric-change change-positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>5% from last month</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card fade-in">
+                    <div class="metric-header">
+                        <div class="metric-title">Completion Rate</div>
+                        <div class="metric-icon icon-orange">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                    </div>
+                    <div class="metric-value">78%</div>
+                    <div class="metric-change change-negative">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>2% from last month</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card fade-in">
+                    <div class="metric-header">
+                        <div class="metric-title">Avg. Satisfaction</div>
+                        <div class="metric-icon icon-purple">
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="metric-value">4.7/5</div>
+                    <div class="metric-change change-positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>0.3 from last month</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h2 class="chart-title">Enrollment Trends</h2>
+                        <div class="chart-actions">
+                            <button><i class="fas fa-sync-alt"></i></button>
+                            <button><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="enrollmentChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="activity-feed">
+                    <div class="chart-header activity-header">
+                        <h2 class="chart-title">Recent Activity</h2>
+                        <button class="btn btn-outline">
+                            View All
+                        </button>
+                    </div>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-avatar">JD</div>
+                            <div class="activity-content">
+                                <div class="activity-user">John Doe</div>
+                                <div class="activity-desc">Completed "Advanced JavaScript" course</div>
+                                <div class="activity-time">2 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar">AS</div>
+                            <div class="activity-content">
+                                <div class="activity-user">Alice Smith</div>
+                                <div class="activity-desc">Enrolled in "UI/UX Design Fundamentals"</div>
+                                <div class="activity-time">5 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar">MJ</div>
+                            <div class="activity-content">
+                                <div class="activity-user">Mike Johnson</div>
+                                <div class="activity-desc">Submitted assignment for "Data Science Basics"</div>
+                                <div class="activity-time">Yesterday</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar">EP</div>
+                            <div class="activity-content">
+                                <div class="activity-user">Emma Parker</div>
+                                <div class="activity-desc">Achieved certification in "Digital Marketing"</div>
+                                <div class="activity-time">2 days ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Courses Section -->
+            <div class="section-header">
+                <h2 class="section-title">Popular Courses</h2>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> New Course
+                </button>
+            </div>
+
+            <div class="courses-grid">
+                <div class="course-card fade-in">
+                    <div class="course-image">
+                        <div class="progress-bar">
+                            <div class="progress"></div>
+                        </div>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Advanced JavaScript Patterns</h3>
+                        <div class="course-meta">
+                            <span>Instructor: Sarah Johnson</span>
+                            <span>Duration: 8 weeks</span>
+                        </div>
+                        <p>Master advanced JavaScript concepts and design patterns for scalable applications.</p>
+                        <div class="course-stats">
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>128 students</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.8 (42)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card fade-in">
+                    <div class="course-image">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 45%"></div>
+                        </div>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">UI/UX Design Fundamentals</h3>
+                        <div class="course-meta">
+                            <span>Instructor: Michael Chen</span>
+                            <span>Duration: 6 weeks</span>
+                        </div>
+                        <p>Learn the principles of user-centered design and create beautiful interfaces.</p>
+                        <div class="course-stats">
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>96 students</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.6 (28)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card fade-in">
+                    <div class="course-image">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Data Science Essentials</h3>
+                        <div class="course-meta">
+                            <span>Instructor: Dr. Emily Rodriguez</span>
+                            <span>Duration: 10 weeks</span>
+                        </div>
+                        <p>Introduction to data analysis, visualization, and machine learning techniques.</p>
+                        <div class="course-stats">
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>142 students</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.9 (64)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card fade-in">
+                    <div class="course-image">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 30%"></div>
+                        </div>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Digital Marketing Strategy</h3>
+                        <div class="course-meta">
+                            <span>Instructor: Robert Kim</span>
+                            <span>Duration: 5 weeks</span>
+                        </div>
+                        <p>Develop effective digital marketing campaigns across multiple channels.</p>
+                        <div class="course-stats">
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>87 students</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.5 (21)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Chart.js
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('enrollmentChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [
+                        {
+                            label: 'New Enrollments',
+                            data: [120, 190, 130, 180, 220, 250, 200, 180, 160, 210, 240, 280],
+                            borderColor: '#2563eb',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            borderWidth: 3,
+                            pointBackgroundColor: '#2563eb',
+                            pointRadius: 4,
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'Completions',
+                            data: [80, 120, 90, 130, 160, 180, 150, 140, 120, 170, 190, 220],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 3,
+                            pointBackgroundColor: '#10b981',
+                            pointRadius: 4,
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(30, 41, 59, 0.9)',
+                            titleColor: '#f8fafc',
+                            bodyColor: '#f8fafc',
+                            borderColor: '#e2e8f0',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(226, 232, 240, 0.5)'
+                            },
+                            ticks: {
+                                color: '#64748b'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#64748b'
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+
+            // Fade in animation for cards
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 150 * index);
+            });
+
+            // Dark mode toggle
+            const darkModeToggle = document.createElement('button');
+            darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            darkModeToggle.className = 'notification-btn';
+            darkModeToggle.style.marginLeft = '10px';
+            
+            document.querySelector('.user-actions').appendChild(darkModeToggle);
+            
+            darkModeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const icon = darkModeToggle.querySelector('i');
+                if (document.body.classList.contains('dark-mode')) {
+                    icon.className = 'fas fa-sun';
+                } else {
+                    icon.className = 'fas fa-moon';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
